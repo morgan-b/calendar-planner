@@ -1,22 +1,22 @@
 $(document).ready(function () {
   //add variable for the date and time today from moment.js
   let today = moment().format("ddd, MMM D YYYY, h:mm a");
-  let timeNow = moment().format('h A');
+  let timeNow = moment().format('h:mm a');
 
   //Add todays date to current day element
   $("#currentDay").text(today);
 
   let workDayHours = [
-    { time: "9 AM", appointment: "" },
-    { time: "10 AM", appointment: "" },
-    { time: "11 AM", appointment: "" },
-    { time: "12 PM", appointment: "" },
-    { time: "1 PM", appointment: "" },
-    { time: "2 PM", appointment: "" },
-    { time: "3 PM", appointment: "" },
-    { time: "4 PM", appointment: "" },
-    { time: "5 PM", appointment: "" },
-    { time: "6 PM", appointment: "" },
+    { time: "9 AM", appointment: ""},
+    { time: "10 AM", appointment: ""},
+    { time: "11 AM", appointment: ""},
+    { time: "12 PM", appointment: ""},
+    { time: "1 PM", appointment: ""},
+    { time: "2 PM", appointment: ""},
+    { time: "3 PM", appointment: ""},
+    { time: "4 PM", appointment: ""},
+    { time: "5 PM", appointment: ""},
+    { time: "6 PM", appointment: ""},
   ];
 
 
@@ -43,26 +43,28 @@ $(document).ready(function () {
     $(".hour").each(function () {
 
       let timeBlockId = $(this).text();
-      let timeHour = moment(timeBlockId, ('h A'));
-      let timerNow = moment(timeNow, ('h A'));
-
+      let closestText = $(this).closest("textarea")
+      let timeHour = moment(timeBlockId, ('h a'));
+      console.log(timeHour);
+      let timerNow = moment(timeNow, ('h a'));
+      console.log(timeNow);
       if ((timeHour.isBefore(timerNow)) === true) {
-        $("textarea").addClass("past");
+        $(this).addClass("past");
       }
 
       else if ((timeHour.isAfter(timerNow)) === true) {
-        $("textarea").addClass("future");
+        $(this).addClass("future");
       }
       else {
-        $("textarea").addClass("present");
+        $(this).addClass("present");
       }
     });
   }
 
-  function getStorage(){
-    let local = localStorage.getItem("Schedule")
-        console.log(local);
-      }
+  //function getStorage(){
+   // let local = localStorage.getItem("Schedule")
+     //   console.log(local);
+     // }
 
 
   // save appointments for calendar
@@ -112,13 +114,13 @@ $(document).ready(function () {
 
   //var appointments = 
   
-  $(".time-block").each(function(){
+  /*$(".time-block").each(function(){
     inputID = parseInt($(this).attr("id"));
     $("textarea").val(localStorage.getItem("Schedule"[inputID]));
     console.log(inputID);
     console.log(localStorage.getItem("Schedule"))
   
-  })
+  })*/
 
 
 
