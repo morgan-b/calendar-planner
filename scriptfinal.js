@@ -1,26 +1,60 @@
-$(document).ready(function () {
-  //add variable for the date and time today from moment.js
-  let today = moment().format("ddd, MMM D YYYY, h:mm a");
-  let timeNow = moment().format('h:mm a');
 
-  //Add todays date to current day element
-  $("#currentDay").text(today);
+$(document).ready(function () {
+if (localStorage.getItem("Schedule") != null){
+ {
+    $(".time-block").each(function () {
+      var id = $(this).attr("id")
+      var textAreaInfo = JSON.parse(localStorage.getItem("Schedule"));
+  let addText = textAreaInfo[id].appointment;
+      console.log(addText);
+      console.log(textAreaInfo);
+      console.log(id);
+     let text = ($(this).children().children("textarea"))
+      text.text(addText);
+        
+        
+      //$("textarea").val(addText)
+      //$(this).val(addText.val);
+    })
+ 
+  }}
+  
+});
+
+  //add variable for the date and time today from moment.js
+  var update = function () {
+    let today = moment().format("ddd, MMM D YYYY, h:mm:ss a");
+    //Add todays date to current day element
+    $("#currentDay").text(today);
+  }
+  setInterval(update, 1);
+  function timenow() {
+    let timeNow = moment().format('h:mm:ss a');
+    addColors(timeNow);
+  }
+  setInterval(timenow, 1000);
+
+
+
+  //var tuna = onload.localStorage.get("Schedule");
+  //console.log(tuna);
 
   let workDayHours = [
-    { time: "9 AM", appointment: ""},
-    { time: "10 AM", appointment: ""},
-    { time: "11 AM", appointment: ""},
-    { time: "12 PM", appointment: ""},
-    { time: "1 PM", appointment: ""},
-    { time: "2 PM", appointment: ""},
-    { time: "3 PM", appointment: ""},
-    { time: "4 PM", appointment: ""},
-    { time: "5 PM", appointment: ""},
-    { time: "6 PM", appointment: ""},
+    { time: "9 AM", appointment: "" },
+    { time: "10 AM", appointment: "" },
+    { time: "11 AM", appointment: "" },
+    { time: "12 PM", appointment: "" },
+    { time: "1 PM", appointment: "" },
+    { time: "2 PM", appointment: "" },
+    { time: "3 PM", appointment: "" },
+    { time: "4 PM", appointment: "" },
+    { time: "5 PM", appointment: "" },
+    { time: "6 PM", appointment: "" },
   ];
 
 
-// adding rows and ids for each hour of the calendar
+
+  // adding rows and ids for each hour of the calendar
   workDayHours.forEach(function (workDayHours, hour) {
     let timeEl = workDayHours.time;
     let eachTimeRow =
@@ -33,38 +67,37 @@ $(document).ready(function () {
       '</textarea><div class="col-2 input-group-append"><button class="saveBtn w-100" type="submit"><i class="far fa-calendar-check"></i></button></div></div></div>';
 
     $(".container").append(eachTimeRow);
-    addColors();
+
   });
 
   // adds colors to the rows based on time 
 
-  function addColors() {
+  function addColors(timeNow) {
 
     $(".hour").each(function () {
 
       let timeBlockId = $(this).text();
-      let closestText = $(this).closest("textarea")
       let timeHour = moment(timeBlockId, ('h a'));
-      console.log(timeHour);
       let timerNow = moment(timeNow, ('h a'));
-      console.log(timeNow);
+
       if ((timeHour.isBefore(timerNow)) === true) {
-        $(this).addClass("past");
+        ($(this).siblings("textarea")).addClass("past");
       }
 
       else if ((timeHour.isAfter(timerNow)) === true) {
-        $(this).addClass("future");
+        ($(this).siblings("textarea")).addClass("future");
+
       }
       else {
-        $(this).addClass("present");
+        ($(this).siblings("textarea")).addClass("present");
       }
     });
   }
 
   //function getStorage(){
-   // let local = localStorage.getItem("Schedule")
-     //   console.log(local);
-     // }
+  // let local = localStorage.getItem("Schedule")
+  //   console.log(local);
+  // }
 
 
   // save appointments for calendar
@@ -82,15 +115,17 @@ $(document).ready(function () {
         .attr("id")
 
     );
-    
+
     console.log(textEntry)
+
     console.log(timeInfo)
+
 
     workDayHours[timeInfo].appointment = textEntry;
 
     // Set local storage with work hours and appointment
     localStorage.setItem("Schedule", JSON.stringify(workDayHours));
-    
+
   });
 
   //adding button and ability to clear the calendar
@@ -111,9 +146,9 @@ $(document).ready(function () {
     });
   });
 
-
-  //var appointments = 
   
+  //var appointments = 
+
   /*$(".time-block").each(function(){
     inputID = parseInt($(this).attr("id"));
     $("textarea").val(localStorage.getItem("Schedule"[inputID]));
@@ -127,4 +162,4 @@ $(document).ready(function () {
 
 
 
-});
+
